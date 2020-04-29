@@ -14,7 +14,7 @@ The `data/` directory contains the data (last updated 29th April, 2020). Two fil
 - `grime-releases.json`: Metadata for Grime releases (AKA records)
 - `grime-tracks.json`: Metadata for individual Grime tracks (from the records in `grime-releases.json`)
 
-Code used to create this dataset is found in `R/. [Test it out now with Binder](https://mybinder.org/v2/gh/ewenme/grime-archives/master?urlpath=rstudio).
+Code used to create this dataset can be found in `R/`. [Test it out now with Binder](https://mybinder.org/v2/gh/ewenme/grime-archives/master?urlpath=rstudio).
 
 ## Related work
 
