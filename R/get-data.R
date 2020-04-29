@@ -2,7 +2,8 @@
 
 # load packages
 library(discogger)
-library(tidyverse)
+library(dplyr)
+library(purrr)
 library(janitor)
 library(jsonlite)
 

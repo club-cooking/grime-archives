@@ -141,18 +141,4 @@ tidy_style_tracks <- function(x, style_records_detail) {
       tracklist = style_records_detail[[y]][["content"]][["tracklist"]]
     )
   })
-  
-  # track_meta <- map(seq_along(track_meta), function(y) {
-  #   
-  #   track_meta[["release_id"]] <- x$release_id[y]
-  #   track_meta
-  # })
-
-  # x %>%
-  #   select(release_id) %>%
-  #   mutate(tracklist = map(
-  #     style_records_detail, function(x) x[["content"]][["tracklist"]]
-  #   )) %>% 
-  #   unnest_longer(tracklist) %>%
-  #   unnest_wider(tracklist)
 }

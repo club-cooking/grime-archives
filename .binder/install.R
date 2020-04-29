@@ -1,5 +1,6 @@
 install.packages('dplyr')
-install.packages('discogger')
 install.packages('janitor')
 install.packages('jsonlite')
-install.packages('tidyverse')
+install.packages('purrr')
+install.packages('remotes')
+remotes::install_github('ewenme/discogger')
