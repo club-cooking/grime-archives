@@ -1,0 +1,5 @@
+install.packages('dplyr')
+install.packages('discogger')
+install.packages('janitor')
+install.packages('jsonlite')
+install.packages('tidyverse')

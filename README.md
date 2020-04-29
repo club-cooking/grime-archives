@@ -1,6 +1,9 @@
 # grime-archives
 
+<!-- badges: start -->
+[![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ewenme/grime-archives/master?urlpath=rstudio)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
 
 A dataset of UK Grime records listed on [Discogs](https://www.discogs.com) between 2000 and 2020, along with the code to gather/update the data yourself.
 
