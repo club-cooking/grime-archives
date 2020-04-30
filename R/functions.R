@@ -99,12 +99,22 @@ get_discogs_style_detail <- function(x) {
     })
 }
 
+# get unique artist IDs
+get_unique_artists <- function(x) {
+  
+  artist_ids <- map(x, function(y) unlist(y[["id"]]))
+  
+  unique(unlist(artist_ids))
+}
+
 # get artists metadata
 get_discogs_artist_meta <- function(x) {
   
-  x <- x[!x %in% c("Various", "various", "Unknown Artist")]
+  artist_info <- map(x, possibly(discogs_artist, NA_real_))
   
-  map(x, discogs_artist)
+  artists_ok <- keep(grime_artists_info, ~length(.x) == 3)
+  
+  map(artists_ok, function(x) x[["content"]])
 }
 
 # tidy style metadata at release-level

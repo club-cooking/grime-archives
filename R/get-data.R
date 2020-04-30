@@ -43,7 +43,14 @@ release_meta <- tidy_style_releases(
 # tidy up track-level metadata
 track_meta <- tidy_style_tracks(release_meta, record_details)
 
+# get unique artist IDs
+artist_ids <- get_unique_artists(grime_releases$artists)
+
+# get detailed artist metadata
+artist_meta <- get_discogs_artist_meta(artist_ids)
+
 # export ------------------------------------------------------------------
 
 write_json(release_meta, "data/grime-releases.json")
 write_json(track_meta, "data/grime-tracks.json")
+write_json(artist_meta, "data/grime-artists.json")

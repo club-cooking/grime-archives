@@ -59,7 +59,7 @@ grime_artists <- distinct(grime_releases_tidy, name, id) %>%
   dplyr::filter(!name %in% c("Various", "various", "Unknown Artist")) # rm Various
 
 # get metadata for grime artists
-grime_artists_info <- map(grime_artists$id, discogs_artist)
+grime_artists_info <- get_discogs_artist_meta(unique(grime_artists$id))
 
 # merge -------------------------------------------------------------------
 
