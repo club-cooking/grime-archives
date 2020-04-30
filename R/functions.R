@@ -160,3 +160,49 @@ tidy_style_tracks <- function(x, style_records_detail) {
     )
   })
 }
+
+# unnest releases data
+unnest_releases <- function(x) {
+  
+  releases <- unnest_longer(x, artists)
+  
+  artists <- mutate_all(releases$artists, unlist)
+  
+  releases %>% 
+    select(-artists) %>% 
+    bind_cols(artists)
+}
+
+# unnest tracks data
+unnest_tracks <- function(x) {
+  
+  tracklists <- unnest_longer(x, tracklist)
+  
+  tracks <- mutate_at(
+    tracklists$tracklist, vars(-extraartists, -artists), unlist
+  )
+  tracklists_tidy <- tracklists %>% 
+    select(-tracklist) %>% 
+    bind_cols(tracks) %>% 
+    mutate(release_id = unlist(release_id)) %>% 
+    unnest_longer(extraartists)
+  
+  # add features to tracks
+  features <- tracklists_tidy$extraartists
+  features <- map(features, function(y) {
+    
+    y[sapply(y, is.null)] <- NA
+    y
+  })
+
+  tracklists_tidy %>% 
+    mutate(extra_artist_name = unlist(features$name),
+           extra_artist_id = unlist(features$id),
+           extra_artist_role = unlist(features$role)) %>% 
+    select(-extraartists, -artists)
+}
+
+# unnest artists data
+# unnest_artists <- function(x) {
+#   
+#   }
