@@ -99,6 +99,14 @@ get_discogs_style_detail <- function(x) {
     })
 }
 
+# get artists metadata
+get_discogs_artist_meta <- function(x) {
+  
+  x <- x[!x %in% c("Various", "various", "Unknown Artist")]
+  
+  map(x, discogs_artist)
+}
+
 # tidy style metadata at release-level
 tidy_style_releases <- function(x, style_masters, style_details) {
   
