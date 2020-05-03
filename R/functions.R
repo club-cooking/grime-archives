@@ -208,7 +208,7 @@ unnest_tracks <- function(x) {
     dplyr::filter(
       str_detect(
         extra_artist_role, 
-        regex("feat|prod", ignore_case = TRUE))
+        regex("feat", ignore_case = TRUE))
       )
 }
 
@@ -235,18 +235,18 @@ unnest_artists <- function(x) {
 # merge data sources
 merge_data_sources <- function(tracks, releases, artists) {
   
-  tracks <- tidy_tracks
-  releases <- tidy_releases
-  artists <- tidy_artists
+  # tracks <- tidy_tracks
+  # releases <- tidy_releases
+  # artists <- tidy_artists
   
   # join tracks/releases
-  tracks_merged <- left_join(tracks, releases, by = "release_id")
+  releases_merged <- left_join(releases, tracks, by = "release_id")
   
   # identify if extra artists are aliases of main artist
-  alias_matches <- map_lgl(1:nrow(tracks_merged), function(x) {
+  alias_matches <- map_lgl(1:nrow(releases_merged), function(x) {
     
-    main_artist <- tracks_merged$artist_id[x]
-    extra_artist <- tracks_merged$extra_artist_id[x]
+    main_artist <- releases_merged$artist_id[x]
+    extra_artist <- releases_merged$extra_artist_id[x]
     
     main_artist_aliases <- artists %>% 
       dplyr::filter(artist_id == main_artist) %>% 
@@ -256,16 +256,39 @@ merge_data_sources <- function(tracks, releases, artists) {
   })
   
   # remove aliases of main artist
-  tracks_merged <- tracks_merged[alias_matches ,]
+  releases_merged <- releases_merged[alias_matches ,]
   
-  tracks_merged %>% 
+  # isolate releases w/o extra artists
+  releases_no_extra <- releases_merged %>% 
+    dplyr::filter(is.na(extra_artist_id)) %>% 
+    group_by(release_id) %>% 
+    expand(
+      release_id, artist_id = artist_id, extra_artist_id = artist_id
+      ) %>% 
+    dplyr::filter(artist_id != extra_artist_id, artist_id == first(artist_id)) %>%
+    ungroup() %>% 
+    inner_join(
+      select(releases_merged, -extra_artist_id, -extra_artist_name), 
+      by = c("release_id", "artist_id")
+      ) %>% 
+    inner_join(
+      select(releases_merged, release_id, artist_id, artist_name), 
+      by = c("release_id", "extra_artist_id"="artist_id")
+      ) %>% 
+    rename(artist_name=artist_name.x, extra_artist_name=artist_name.y)
+    
+  
+  releases_merged %>% 
+    # remove releases w/o extra artist
+    dplyr::filter(!is.na(extra_artist_id)) %>%
     distinct(release_id, artist_id, extra_artist_id, track_title,
              .keep_all = TRUE) %>% 
-    dplyr::filter(!is.na(extra_artist_id)) %>% 
+    bind_rows(releases_no_extra) %>%
     select(
       release_id, release_title_short, track_title, 
       artist_id, artist_name, extra_artist_name:extra_artist_role, year,
       style, community_have, community_want
     )
+
 }
 
