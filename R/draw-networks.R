@@ -70,7 +70,19 @@ relations %>%
 # focus
 relations_cut <- relations %>% 
   activate(edges) %>% 
-  dplyr::filter(edge_is_from(1) | edge_is_to(1))
+  dplyr::filter(edge_is_from(1) | edge_is_to(1)) %>% 
+  activate(nodes) %>% 
+  dplyr::filter(node_is_adjacent(1, include_to = TRUE))
+
+relations_cut %>% 
+  ggraph(layout = 'stress') +
+  geom_edge_link0(edge_colour = "grey66",edge_width = 0.5) + 
+  geom_node_point(aes(size = n_records), shape = 21) +
+  geom_node_text(aes(filter = n_records >= 2, label = name),
+                 repel = TRUE,
+                 color = "white", bg.color = "black", bg.r = 0.15,
+                 family = "IBM Plex Sans Light") +
+  theme_graph()
 
 # interactive
 edges <-  as_data_frame(relations)
