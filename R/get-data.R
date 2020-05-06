@@ -13,7 +13,8 @@ source("R/functions.R")
 # set discogs api token
 discogs_api_token()
 
-# style params
+# parameters --------------------------------------------------------------
+
 style = "Grime"
 adjacent_styles = c(
   "UK Garage", "Dubstep", "Speed Garage", "RnB/Swing", "Dancehall", 
@@ -44,7 +45,7 @@ release_meta <- tidy_style_releases(
 track_meta <- tidy_style_tracks(release_meta, record_details)
 
 # get unique artist IDs
-artist_ids <- get_unique_artists(grime_releases$artists)
+artist_ids <- get_unique_artists(release_meta$artists)
 
 # get detailed artist metadata
 artist_meta <- get_discogs_artist_meta(artist_ids)
