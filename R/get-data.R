@@ -52,6 +52,6 @@ artist_meta <- get_discogs_artist_meta(artist_ids)
 
 # export ------------------------------------------------------------------
 
-write_json(release_meta, "data/grime-releases.json")
-write_json(track_meta, "data/grime-tracks.json")
-write_json(artist_meta, "data/grime-artists.json")
+write_json(release_meta, "data-raw/grime-releases.json")
+write_json(track_meta, "data-raw/grime-tracks.json")
+write_json(artist_meta, "data-raw/grime-artists.json")
