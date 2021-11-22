@@ -13,24 +13,21 @@ source("R/functions.R")
 # set discogs api token
 discogs_api_token()
 
-# parameters --------------------------------------------------------------
-
+# parameters
 style = "Grime"
-adjacent_styles = c(
-  "UK Garage", "Dubstep", "Speed Garage", "RnB/Swing", "Dancehall", 
-  "Ghetto", "Dub"
-  )
+adjacent_styles = c("UK Garage", "UK Funky", "Dubstep")
+country = "uk"
 
 # get data ----------------------------------------------------------------
 
 # search discogs for all grime releases
 release_counts <- get_discogs_style_releases(
-  style = style, adjacent_styles = adjacent_styles
+  style = style, adjacent_styles = adjacent_styles, country = country
   )
 
 # search discogs for grime "master" releases
 master_counts <- get_discogs_style_masters(
-  style = style, adjacent_styles = adjacent_styles
+  style = style, adjacent_styles = adjacent_styles, country = country
 )
 
 # get detailed release metadata for these records from discogs
